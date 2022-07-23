@@ -10,8 +10,13 @@ romDir="/home/deck/Emulation/roms"
 
 # extension(s) to look for and their destination folder under romDir
 declare -A parsers=(
-    [.z64 .n64]=n64
+    [.gb]=gb
+    [.gba]=gba
+    [.gbc]=gbc
     [.nds]=nds
+    [.nes]=nes
+    [.n64 .z64]=n64
+    [.sfc]=snes
 )
 
 # uncomment to show what files would be moved, without moving any
@@ -36,7 +41,7 @@ for file in ${warpinatorDir}/*; do
     # see if any of the extensions match
     for exts in "${!parsers[@]}"; do
         for ext in $exts; do
-            if [[ "$file" == *"$ext" ]]; then
+            if [[ "${file,,}" == *"$ext" ]]; then
                 dest="$romDir/${parsers[$exts]}"
                 break 2
             fi
