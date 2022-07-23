@@ -53,9 +53,14 @@ for file in ${warpinatorDir}/*; do
         if [ $dry ]; then
             echo -n "Would move "
         else
-            # do the actual move
+            # (try to) move the file, let the user decide whether to overwrite
             mv -i "$file" "$dest"
-            echo -n "Moved "
+            # mv reports skipping a file as a success
+            if [ $? != 0 ] || [ -e "$file" ]; then
+                echo -n "Didn't move "
+            else
+                echo -n "Moved "
+            fi
         fi
         echo "$filename" to "$dest"
     else
